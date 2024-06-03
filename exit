@@ -1,0 +1,35 @@
+[33mcommit 1d652d57381152134df3f4cb70656b195cf3aaa3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Mark J Williams <mjwdroid@gmail.com>
+Date:   Sun Jun 2 22:58:27 2024 -0400
+
+    section 2 chap 8 done
+
+[33mcommit fb5ffffd646eb55e2423be3f2bf05a4b8b1f497a[m
+Author: Mark J Williams <mjwdroid@gmail.com>
+Date:   Sun Jun 2 20:21:16 2024 -0400
+
+    section 2 chap 7 done
+
+[33mcommit b8bd39074587eff721bd1ebce3fcba88aabc1dc4[m
+Author: Mark J Williams <mjwdroid@gmail.com>
+Date:   Sun Jun 2 19:03:35 2024 -0400
+
+    section 2 chap 6 done
+
+[33mcommit 619ecddcd6a5ed6e08384bfdb95019fa5d1a705a[m
+Author: Mark J Williams <mjwdroid@gmail.com>
+Date:   Fri May 31 19:56:00 2024 -0400
+
+    the char and enemy character classes added
+
+[33mcommit 8b53c067642736769acc1de7bb321e1d5387c00c[m
+Author: Mark J Williams <mjwdroid@gmail.com>
+Date:   Fri May 31 19:18:47 2024 -0400
+
+    the base character class
+
+[33mcommit 6d4bd6baaa238dddc339d251a3a187f6738b7a8f[m
+Author: Mark J Williams <mjwdroid@gmail.com>
+Date:   Thu May 30 22:21:46 2024 -0400
+
+    Initial Project Files
