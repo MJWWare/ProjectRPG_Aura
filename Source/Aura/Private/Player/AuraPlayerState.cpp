@@ -17,7 +17,7 @@ AAuraPlayerState::AAuraPlayerState()
 	
 }
 
-TObjectPtr<UAuraAbilitySystemComponent> AAuraPlayerState::GetAbilitySystemComponent() const
+UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
