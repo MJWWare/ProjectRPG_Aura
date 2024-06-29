@@ -64,14 +64,12 @@ void AAuraPlayerController::BeginPlay()
 	FInputModeGameAndUI InputModeData;
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	InputModeData.SetHideCursorDuringCapture(false);
-	SetInputMode(InputModeData);
-	
+	SetInputMode(InputModeData);	
 }
 
 void AAuraPlayerController::SetupInputComponent()
 {
-	Super::SetupInputComponent();
-	
+	Super::SetupInputComponent();	
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
@@ -89,14 +87,12 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	if (APawn* ControlledPawn = GetPawn<APawn>())
 	{
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
-		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
-		
+		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);		
 	}
 }
 
 void AAuraPlayerController::CursorTrace()
-{
-	FHitResult CursorHit;
+{	
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
@@ -106,39 +102,12 @@ void AAuraPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 
-	if (LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if (ThisActor != nullptr)
-		{
-			//case b
-			ThisActor->HighlightActor();
-		}
-		else
-		{
-			//case a nothing
-		}
+		if(LastActor) LastActor->UnhighlightActor();
+		if(ThisActor) ThisActor->HighlightActor();
 	}
-	else //last is valid
-	{
-		if (ThisActor == nullptr)
-		{
-			//case c
-			LastActor->UnhighlightActor();
-		}
-		else //both valid
-		{
-			if (LastActor != ThisActor)
-			{
-				//case d
-				LastActor->UnhighlightActor();
-				ThisActor->HighlightActor();
-			}
-			else
-			{
-				//case e nothing
-			}
-		}
-	}
+		
 }
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
@@ -156,19 +125,13 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	//GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
 	if(!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		if(GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		if(GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 		return;
 	}
 
 	if(bTargeting)
 	{
-		if(GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		if(GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 	}
 	else // click to move here
 	{
@@ -181,7 +144,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for(const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					// drawn the Spline for confirmation
+					// draw the Spline for confirmation
 					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
 				}
 				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
@@ -198,29 +161,19 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	//GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());	
 	if(!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-			if(GetASC())
-			{
-				GetASC()->AbilityInputTagHeld(InputTag);
-			}
+		if(GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 		return;
 	}
 
 	if(bTargeting)
 	{
-		if(GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
+		if(GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 	}
 	else //  holding LMB so move pawn towards clicked spot
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
-
-		FHitResult Hit;
-		if(GetHitResultUnderCursor(ECC_Visibility, false, Hit))
-		{
-			CachedDestination = Hit.ImpactPoint;
-		}
+		
+		if(CursorHit.bBlockingHit) CachedDestination = CursorHit.ImpactPoint;
 
 		if(APawn* ControlledPawn = GetPawn())
 		{
