@@ -20,10 +20,7 @@ public:
  FGameplayTag Attributes_Primary_Intelligence;
  FGameplayTag Attributes_Primary_Resilience;
  FGameplayTag Attributes_Primary_Vigor;
- 
- FGameplayTag Attributes_Secondary_MaxHealth;
- FGameplayTag Attributes_Secondary_MaxMana;
- 
+  
  FGameplayTag Attributes_Secondary_Armor;
  FGameplayTag Attributes_Secondary_ArmorPenetration;
  FGameplayTag Attributes_Secondary_BlockChance;
@@ -32,6 +29,13 @@ public:
  FGameplayTag Attributes_Secondary_CritHitResist;
  FGameplayTag Attributes_Secondary_HealthRegen;
  FGameplayTag Attributes_Secondary_ManaRegen;
+ FGameplayTag Attributes_Secondary_MaxHealth;
+ FGameplayTag Attributes_Secondary_MaxMana;
+
+ FGameplayTag Attributes_Resistance_Fire;
+ FGameplayTag Attributes_Resistance_Lightning;
+ FGameplayTag Attributes_Resistance_Arcane;
+ FGameplayTag Attributes_Resistance_Physical;
 
  FGameplayTag InputTag_LMB;
  FGameplayTag InputTag_RMB;
@@ -42,8 +46,11 @@ public:
 
  FGameplayTag Damage;
  FGameplayTag Damage_Fire;
+ FGameplayTag Damage_Lightning;
+ FGameplayTag Damage_Arcane;
+ FGameplayTag Damage_Physical;
 
- TArray<FGameplayTag> DamageTypes;
+ TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
  
  FGameplayTag Effects_HitReact;
  
