@@ -37,8 +37,6 @@ static const AuraDamageStatics& DamageStatics()
 	return DStatics;	
 }
 
-#define RAND_MAX 100.f
-
 UExecCalc_Damage::UExecCalc_Damage()
 {
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
@@ -71,8 +69,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.TargetTags = TargetTags;
 
 	// get damage set by caller magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
-
+	float Damage = 0.f;
+	for(FGameplayTag DamageTypeTag : FAuraGameplayTags::Get().DamageTypes)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		Damage += DamageTypeValue;
+	}
+	
 	// capture block chance on target and determine if there was a block, if blocked, cut dmg in half
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
