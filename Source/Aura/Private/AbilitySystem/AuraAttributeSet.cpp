@@ -9,6 +9,7 @@
 #include "Net/UnrealNetwork.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
@@ -141,13 +142,15 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Blue, FString::Printf(TEXT("Health: %f"), GetHealth()));
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-		UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
+		//UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
 	}
+	
 	if(Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Blue, FString::Printf(TEXT("Health: %f"), GetHealth()));
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
+	
 	if(Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 		const float LocalIncomingDamage = GetIncomingDamage();
@@ -179,6 +182,16 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCrit);
 		}
 	}
+	
+	if(Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+	{
+		//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Blue, FString::Printf(TEXT("Health: %f"), GetHealth()));
+		//SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+		const float LocalIncomingXP = GetIncomingXP();
+		SetIncomingXP(0.f);
+		UE_LOG(LogAura, Log, TEXT("Incoming XP: %f"), LocalIncomingXP);
+	}
+	
 }
 
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCritHit) const
