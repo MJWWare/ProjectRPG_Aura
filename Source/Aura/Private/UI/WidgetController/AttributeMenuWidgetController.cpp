@@ -39,7 +39,8 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	{
 		BroadCastAttributeInfo(Pair.Key, Pair.Value());
 	}
-	
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::BroadCastAttributeInfo(const FGameplayTag& AttributeTag,
