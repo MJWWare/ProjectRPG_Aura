@@ -11,7 +11,13 @@ UWaitCooldownChange* UWaitCooldownChange::WaitForCooldownChange(UAbilitySystemCo
 	WaitCooldownChange->ASC = AbilitySystemComponent;
 	WaitCooldownChange->CooldownTag = InCooldownTag;
 
-	if(!IsValid(AbilitySystemComponent) || !InCooldownTag.IsValid())
+	if(!IsValid(AbilitySystemComponent))
+	{
+		WaitCooldownChange->EndTask();
+		return nullptr;
+	}
+
+	if(!InCooldownTag.IsValid())
 	{
 		WaitCooldownChange->EndTask();
 		return nullptr;
@@ -29,7 +35,7 @@ UWaitCooldownChange* UWaitCooldownChange::WaitForCooldownChange(UAbilitySystemCo
 
 void UWaitCooldownChange::EndTask()
 {
-	if(IsValid(ASC)) return;
+	if(!IsValid(ASC)) return;
 	ASC->RegisterGameplayTagEvent(CooldownTag, EGameplayTagEventType::NewOrRemoved).RemoveAll(this);
 
 	SetReadyToDestroy();
