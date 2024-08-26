@@ -5,7 +5,7 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 
-FString UAuraGameplayAbility::GetDesc(int32 Level)
+FString UAuraGameplayAbility::GetAbilityDesc(int32 Level)
 {
 	return FString::Printf(TEXT("<Default>%s, </><Level>%d</>"), L"Default Ability Name - blah blah blah blah blah blah blah blah blah blah ", Level);
 }

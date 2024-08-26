@@ -275,7 +275,7 @@ bool UAuraAbilitySystemComponent::GetDescsByAbilityTag(const FGameplayTag& Abili
 	{
 		if(UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec->Ability))
 		{
-			OutDesc = AuraAbility->GetDesc(AbilitySpec->Level);
+			OutDesc = AuraAbility->GetAbilityDesc(AbilitySpec->Level);
 			OutNextLevelDesc = AuraAbility->GetNextLevelDesc(AbilitySpec->Level + 1);
 			return true;
 		}

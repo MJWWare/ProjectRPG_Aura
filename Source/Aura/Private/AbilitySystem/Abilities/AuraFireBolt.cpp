@@ -4,7 +4,7 @@
 #include "AbilitySystem/Abilities/AuraFireBolt.h"
 
 
-FString UAuraFireBolt::GetDesc(int32 Level)
+FString UAuraFireBolt::GetAbilityDesc(int32 Level)
 {
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
