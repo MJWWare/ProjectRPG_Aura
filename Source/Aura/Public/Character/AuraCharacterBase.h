@@ -11,6 +11,7 @@
 #include "AuraCharacterBase.generated.h"
 
 
+class UDebuffNiagaraComponent;
 class UNiagaraSystem;
 class UAuraAbilitySystemComponent;
 class UAttributeSet;
@@ -41,6 +42,11 @@ public:
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
+	virtual FOnASCRegistered GetOnASCRegisteredDelegate() override;
+	virtual FOnDeath GetOnDeathDelegate() override;
+	
+	FOnASCRegistered OnAscRegistered;
+	FOnDeath OnDeath;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
@@ -119,6 +125,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffComponent;
 private:
 
 	UPROPERTY(EditAnywhere, Category="Abilities")
