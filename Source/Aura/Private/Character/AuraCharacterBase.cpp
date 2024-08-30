@@ -9,6 +9,7 @@
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AAuraCharacterBase::AAuraCharacterBase()
@@ -61,6 +62,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	this->GetCharacterMovement()->StopMovementImmediately();
 	GetMesh()->AddImpulse(DeathImpulse, NAME_None, true);
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
