@@ -98,6 +98,14 @@ public:
  TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
  
  FGameplayTag Effects_HitReact;
+
+ FGameplayTag Player_Block_InputPressed;
+ FGameplayTag Player_Block_InputHeld;
+ FGameplayTag Player_Block_InputReleased;
+ FGameplayTag Player_Block_CursorTrace;
+
+ FGameplayTag Event_Montage_FireBolt;
+ FGameplayTag Event_Montage_Electrocute;
  
 private:
  static FAuraGameplayTags GameplayTags;

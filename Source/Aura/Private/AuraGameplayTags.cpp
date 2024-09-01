@@ -208,5 +208,24 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
 	FName("Montage.Attack.4"), FString("Montage Attack 4"));
 	
+	// Player Tags
+	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Player.Block.CursorTrace"), FString("Block tracing under the cursor"));
+	
+	GameplayTags.Player_Block_InputHeld = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Player.Block.InputHeld"), FString("Block input held callback for input"));
+	
+	GameplayTags.Player_Block_InputPressed = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Player.Block.InputPressed"), FString("Block input pressed callback for input"));
+	
+	GameplayTags.Player_Block_InputReleased = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Player.Block.InputReleased"), FString("Block input released callback for input"));
+	
+	// Event montage tags
+	GameplayTags.Event_Montage_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Event.Montage.FireBolt"), FString("Montage event for FireBolt"));
+	
+	GameplayTags.Event_Montage_Electrocute = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("Event.Montage.Electrocute"), FString("Montage event for Electrocute"));
 	
 }
