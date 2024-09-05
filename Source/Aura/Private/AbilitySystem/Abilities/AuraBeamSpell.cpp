@@ -50,21 +50,44 @@ void UAuraBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 			}
 		}
 	}
+	if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor))
+	{
+		CombatInterface->GetOnDeathDelegate().AddUniqueDynamic(this, &UAuraBeamSpell::PrimaryTargetDied);
+	}
 }
 
 void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets)
 {
-	TArray<AActor*> OverlappingActors;
-	TArray<AActor*> ActorsToIgnore;
-	ActorsToIgnore.Add(GetAvatarActorFromActorInfo());
-	ActorsToIgnore.Add(MouseHitActor);
-	UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(GetAvatarActorFromActorInfo(), OverlappingActors,
-			ActorsToIgnore, 850.f, MouseHitActor->GetActorLocation());
+	int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel() - 1, MaxNumShockTargets);
+	//int32 NumAdditionalTargets = 5;
 
-	//int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel() - 1, MaxNumShockTargets);
-	int32 NumAdditionalTargets = 5;
+	if(NumAdditionalTargets > 0)
+	{
+		TArray<AActor*> OverlappingActors;
+		TArray<AActor*> ActorsToIgnore;
+		ActorsToIgnore.Add(GetAvatarActorFromActorInfo());
+		ActorsToIgnore.Add(MouseHitActor);
+		UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(GetAvatarActorFromActorInfo(), OverlappingActors,
+				ActorsToIgnore, 850.f, MouseHitActor->GetActorLocation());
 
-	UAuraAbilitySystemLibrary::GetClosestTargets(NumAdditionalTargets, OverlappingActors, OutAdditionalTargets,
-			MouseHitActor->GetActorLocation());
+		UAuraAbilitySystemLibrary::GetClosestTargets(NumAdditionalTargets, OverlappingActors, OutAdditionalTargets,
+        				MouseHitActor->GetActorLocation());
+		
+		for(AActor* Target : OutAdditionalTargets)
+		{
+			if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(Target))
+			{
+				CombatInterface->GetOnDeathDelegate().AddUniqueDynamic(this, &UAuraBeamSpell::AdditonalTargetDied);
+			}
+		}
+	}
 	
+}
+
+void UAuraBeamSpell::RemoveOnDeathNotify(AActor* Actor)
+{
+	if(const auto CombatInterface = Cast<ICombatInterface>(Actor))
+	{
+		CombatInterface->GetOnDeathDelegate().RemoveAll(this);
+	}
 }
