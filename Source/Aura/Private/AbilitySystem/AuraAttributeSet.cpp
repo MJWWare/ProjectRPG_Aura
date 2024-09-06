@@ -235,10 +235,19 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
 
 	//Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]); // depricated
+	// UE 5.4 code for adding gameplay tags to the effect:
 	FInheritedTagContainer TagContainer = FInheritedTagContainer();
 	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
-	TagContainer.Added.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
-	//TagContainer.CombinedTags.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
+
+	FGameplayTag DebuffTag = GameplayTags.DamageTypesToDebuffs[DamageType];
+	TagContainer.Added.AddTag(DebuffTag);
+	if(DebuffTag.MatchesTagExact(GameplayTags.Debuff_Stun))
+	{
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_CursorTrace);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputHeld);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputPressed);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputReleased);
+	}
 	Component.SetAndApplyTargetTagChanges(TagContainer);
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
