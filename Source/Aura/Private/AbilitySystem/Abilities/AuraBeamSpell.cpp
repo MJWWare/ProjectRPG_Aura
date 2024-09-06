@@ -87,7 +87,14 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 void UAuraBeamSpell::RemoveOnDeathNotify(AActor* Actor)
 {
 	if(const auto CombatInterface = Cast<ICombatInterface>(Actor))
-	{
-		CombatInterface->GetOnDeathDelegate().RemoveAll(this);
+	{		
+		if (CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraBeamSpell::AdditonalTargetDied))
+		{
+			CombatInterface->GetOnDeathDelegate().RemoveDynamic(this, &UAuraBeamSpell::AdditonalTargetDied);
+		}
+		if (CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraBeamSpell::PrimaryTargetDied))
+		{
+			CombatInterface->GetOnDeathDelegate().RemoveDynamic(this, &UAuraBeamSpell::PrimaryTargetDied);
+		}
 	}
 }
