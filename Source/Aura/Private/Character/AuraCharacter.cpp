@@ -8,6 +8,7 @@
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "NiagaraComponent.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/AuraPlayerController.h"
@@ -158,6 +159,18 @@ int32 AAuraCharacter::GetPlayerLevel_Implementation()
 	return AuraPlayerState->GetPlayerLevel();
 }
 
+void AAuraCharacter::OnRep_Burned()
+{
+	if(bIsBurned)
+	{
+		BurnDebuffComponent->Activate();
+	}
+	else
+	{
+		BurnDebuffComponent->Deactivate();
+	}
+}
+
 void AAuraCharacter::OnRep_Stunned()
 {
 		if(UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
@@ -174,10 +187,12 @@ void AAuraCharacter::OnRep_Stunned()
 			if(bIsStunned)
 			{
 				AuraASC->AddLooseGameplayTags(TagContainer, 4);
+				StunDebuffComponent->Activate();
 			}
 			else
 			{
-				AuraASC->RemoveLooseGameplayTags(TagContainer, 4);				
+				AuraASC->RemoveLooseGameplayTags(TagContainer, 4);
+				StunDebuffComponent->Deactivate();
 			}
 		}
 	
