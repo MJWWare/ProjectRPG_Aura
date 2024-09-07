@@ -46,7 +46,8 @@ public:
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() override;
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
-	//virtual FOnDeath GetOnDeathDelegate() override;
+	virtual bool GetIsBeingShocked_Implementation() const override;
+	virtual void SetIsBeingShocked_Implementation(const bool bInShock) override;
 	
 	FOnASCRegistered OnAscRegistered;
 	FOnDeathSignature OnDeathDelegate;
@@ -68,6 +69,10 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_Stunned();
+
+	UPROPERTY(Replicated, BlueprintReadOnly)
+	bool bIsBeingShocked = false;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
