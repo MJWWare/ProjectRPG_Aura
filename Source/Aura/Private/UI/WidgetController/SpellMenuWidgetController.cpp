@@ -26,7 +26,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 			ShouldEnableButtons(StatusTag, CurrentSpellPoints, bEnableSpendPoints, bEnableEquip);
 			FString Desc;
 			FString NextLevelDesc;
-			GetAuraASC()->GetDescsByAbilityTag(AbilityTag, Desc, NextLevelDesc);
+			GetAuraASC()->GetDescByAbilityTag(AbilityTag, Desc, NextLevelDesc);
 			SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Desc, NextLevelDesc);			
 		}
 
@@ -49,7 +49,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 		ShouldEnableButtons(SelectedAbility.Status, CurrentSpellPoints, bEnableSpendPoints, bEnableEquip);
 		FString Desc;
 		FString NextLevelDesc;
-		GetAuraASC()->GetDescsByAbilityTag(SelectedAbility.Ability, Desc, NextLevelDesc);
+		GetAuraASC()->GetDescByAbilityTag(SelectedAbility.Ability, Desc, NextLevelDesc);
 		SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Desc, NextLevelDesc);
 	});
 }
@@ -87,7 +87,7 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 	ShouldEnableButtons(AbilityStatus, SpellPoints, bEnableSpendPoints, bEnableEquip);
 	FString Desc;
 	FString NextLevelDesc;
-	GetAuraASC()->GetDescsByAbilityTag(AbilityTag, Desc, NextLevelDesc);
+	GetAuraASC()->GetDescByAbilityTag(AbilityTag, Desc, NextLevelDesc);
 	SpellGlobeSelectedDelegate.Broadcast(bEnableSpendPoints, bEnableEquip, Desc, NextLevelDesc);
 }
 

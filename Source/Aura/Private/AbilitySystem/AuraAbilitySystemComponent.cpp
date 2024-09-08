@@ -223,6 +223,11 @@ void UAuraAbilitySystemComponent::AssignSlotToAbility(FGameplayAbilitySpec& Spec
 	Spec.DynamicAbilityTags.AddTag(Slot);
 }
 
+void UAuraAbilitySystemComponent::MulticastActivatePassiveEffect_Implementation(const FGameplayTag& AbilityTag,bool bActivate)
+{
+	ActivatePassiveEffect.Broadcast(AbilityTag, bActivate);
+}
+
 FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 	FScopedAbilityListLock ActiveScopeLock(*this);
@@ -324,7 +329,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 		{
 			// handle activation/de for passive
 
-			if(!SlotIsEmpty(Slot)) // is an ability in this slot, deactivate and clear it's slot
+			if(!SlotIsEmpty(Slot)) // is an ability in this slot, deactivate and clear the slot
 			{
 				// get spec with slot
 				FGameplayAbilitySpec* SpecWithSlot = GetSpecWithSlot(Slot);
@@ -339,6 +344,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 
 					if(IsPassiveAbility(*SpecWithSlot))
 					{
+						MulticastActivatePassiveEffect(GetAbilityTagFromSpec(*SpecWithSlot), false);
 						DeactivatePassiveAbility.Broadcast(GetAbilityTagFromSpec(*SpecWithSlot));
 					}					
 					// clear this Ability's slot in case it's a different slot
@@ -351,6 +357,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				if(IsPassiveAbility(*AbilitySpec))
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					MulticastActivatePassiveEffect(AbilityTag, true);
 				}
 			}
 			AssignSlotToAbility(*AbilitySpec, Slot);
@@ -367,7 +374,7 @@ void UAuraAbilitySystemComponent::ClientEquipAbility_Implementation(const FGamep
 	AbilityEquipped.Broadcast(AbilityTag, Status, Slot, PrevSlot);
 }
 
-bool UAuraAbilitySystemComponent::GetDescsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDesc, FString& OutNextLevelDesc)
+bool UAuraAbilitySystemComponent::GetDescByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDesc, FString& OutNextLevelDesc)
 {
 	if(FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
 	{
