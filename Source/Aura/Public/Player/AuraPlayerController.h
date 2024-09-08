@@ -16,6 +16,7 @@ struct FInputActionValue;
 class IEnemyInterface;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
+class AMagicCircle;
 
 /**
  * 
@@ -31,6 +32,12 @@ public:
 
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCritHit);
+
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle();
+	
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -91,4 +98,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AMagicCircle> MagicCircleClass;
+
+	UPROPERTY()
+	TObjectPtr<AMagicCircle> MagicCircle;
+
+	void UpdateMagicCircleLocation();
 };
