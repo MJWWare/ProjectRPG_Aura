@@ -50,3 +50,8 @@ FString UAuraFireBlast::GetNextLevelDesc(int32 Level)
 			), Level, ManaCost, Cooldown, NumFireBalls, ScaledDamage);
 	
 }
+
+TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
+{
+	return TArray<AAuraFireBall*>();
+}
