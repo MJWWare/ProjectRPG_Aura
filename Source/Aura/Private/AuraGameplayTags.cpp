@@ -245,5 +245,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 	GameplayTags.Event_Montage_Electrocute = UGameplayTagsManager::Get().AddNativeGameplayTag(
 	FName("Event.Montage.Electrocute"), FString("Montage event for Electrocute"));
-	
+
+	// GameplayCues
+	GameplayTags.GameplayCue_FireBlast = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("GameplayCue.FireBlast"), FString("GameplayCue FireBlast Tag"));
+
 }

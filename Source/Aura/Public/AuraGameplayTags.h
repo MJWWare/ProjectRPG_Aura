@@ -112,6 +112,8 @@ public:
 
  FGameplayTag Event_Montage_FireBolt;
  FGameplayTag Event_Montage_Electrocute;
+
+ FGameplayTag GameplayCue_FireBlast;
  
 private:
  static FAuraGameplayTags GameplayTags;
