@@ -29,5 +29,6 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UMVVM_LoadScreen> LoadScreenViewModel;
 protected:
+	
 	virtual void BeginPlay() override;
 };
