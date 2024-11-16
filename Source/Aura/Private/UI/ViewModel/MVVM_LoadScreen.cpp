@@ -24,7 +24,7 @@ void UMVVM_LoadScreen::InitializeLoadSlots()
 	
 }
 
-UMVVM_LoadSlot* UMVVM_LoadScreen::GetLoadSlotviewModelByIndex(int32 Index) const
+UMVVM_LoadSlot* UMVVM_LoadScreen::GetLoadSlotViewModelByIndex(int32 Index) const
 {
 	return LoadSlots.FindChecked(Index);
 }
@@ -33,7 +33,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 {
 	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
 
-	LoadSlots[Slot]->PlayerName = EnteredName;
+	LoadSlots[Slot]->SetPlayerName(EnteredName);
 
 	AuraGameMode->SaveSlotData(LoadSlots[Slot], Slot);
 	LoadSlots[Slot]->InitializeSlot();
