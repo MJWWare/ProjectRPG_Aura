@@ -45,6 +45,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps; // TSoftObjectPtr is lazy loaded so all Maps don't sit in memory
 
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 protected:
 	virtual void BeginPlay() override;
 };
